@@ -13,23 +13,20 @@ def shortest_shortest_path(graph, source):
       (shortest path weight, shortest path number of edges). See test case for example.
     """
     ### TODO
-    heap = [(0,0,source)]
+    heap = [(0, 0, source)]
     visited = {}
 
     while heap:
-        weight, num_edges, u = heappop(head)
-
+        weight, num_edges, u = heappop(heap)
         if u in visited:
-            prev_weight, prev_edges = visted[u]
+            prev_weight, prev_edges = visited[u]
             if weight > prev_weight or (weight == prev_weight and num_edges >= prev_edges):
                 continue
         visited[u] = (weight, num_edges)
-
-        for v,w in graph.get(u, set()):
+        for v, w in graph.get(u, set()):
             heappush(heap, (weight + w, num_edges + 1, v))
-
     return visited
-    
+
 def bfs_path(graph, source):
     """
     Returns:
@@ -66,9 +63,10 @@ def get_path(parents, destination):
     """
     ###TODO
     path = []
-    while destination in parents and parents[destination] is not None:
+    while destination in parents:
         destination = parents[destination]
+        if destination is None:
+            break
         path.append(destination)
     path.reverse()
-    return path
-
+    return ''.join(path)
